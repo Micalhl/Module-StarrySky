@@ -19,7 +19,11 @@ object YamlUpdater {
             return Configuration.loadFromFile(file)
         }
         val old = Configuration.loadFromFile(file)
-        releaseResourceFile(path, true)
+        try {
+            releaseResourceFile(path, true)
+        } catch (_: Throwable) {
+            return old
+        }
         val new = Configuration.loadFromFile(file)
 
         old.getKeys(true).forEach {

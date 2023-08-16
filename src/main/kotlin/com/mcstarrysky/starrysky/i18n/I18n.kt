@@ -2,7 +2,6 @@ package com.mcstarrysky.starrysky.i18n
 
 import com.mcstarrysky.starrysky.i18n.exception.severe
 import org.bukkit.ChatColor
-import org.bukkit.entity.Player
 import taboolib.common.io.newFile
 import taboolib.common.io.newFolder
 import taboolib.common.io.runningResources
@@ -75,8 +74,9 @@ object I18n {
             }
             runningResources
                 .filter { it.startsWith("locales/") }
-                .filterNot { newFile(getDataFolder(), it).exists() }.forEach {
-                console().sendMessage("|- Releasing language file ${it.removePrefix("locales/")}")
+                .filterNot { newFile(getDataFolder(), it, create = false).exists() }.forEach {
+                    releaseResourceFile(it, true)
+                    console().sendMessage("|- Releasing language file ${it.removePrefix("locales/")}")
             }
             // 加载
             folder.listFiles { file -> file.extension == "yml" }?.forEach { file ->
@@ -102,28 +102,26 @@ object I18n {
         }
     }
 
-    fun getLocale(languageCode: String): I18nConfig {
-        return localesMap[languageCodeTransfer[languageCode] ?: languageCode] ?: localesMap[defaultLanguageCode] ?: severe("Missing language file: $languageCode")
-    }
-
-    fun getLocale(player: Player): String {
-        return languageCodeTransfer[player.locale.lowercase()] ?: player.locale
-    }
-
     fun getLocale(sender: ProxyCommandSender): String {
-        return if (sender is ProxyPlayer) sender.locale else getLocale()
+        return if (sender is ProxyPlayer)
+            languageCodeTransfer[sender.locale.lowercase()] ?: sender.locale
+        else Locale.getDefault().toLanguageTag().replace("-", "_").lowercase()
     }
 
-    fun getLocale(): String {
-        return Locale.getDefault().toLanguageTag().replace("-", "_").lowercase()
+    fun getLocaleFile(sender: ProxyCommandSender): I18nConfig {
+        val locale = getLocale(sender)
+        return localesMap.entries.firstOrNull { it.key.equals(locale, true) }?.value
+            ?: localesMap[defaultLanguageCode]
+            ?: localesMap.values.firstOrNull()
+            ?: severe("No available language file")
     }
 
     fun action(action: String, obj: String) {
-        getLocale(getLocale()).logRaw("&7尝试$action &c$obj&7.")
+        getLocaleFile(console()).logRaw("&7尝试$action &c$obj&7.")
     }
 
     fun error(action: String, obj: String, exception: String) {
-        getLocale(getLocale()).logRaw("&7$action &c$obj &7时遇到错误(&c$exception&7).")
+        getLocaleFile(console()).logRaw("&7$action &c$obj &7时遇到错误(&c$exception&7).")
     }
 
     fun error(action: String, obj: String, exception: Throwable, packageFilter: String? = null) {
