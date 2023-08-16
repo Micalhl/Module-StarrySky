@@ -3,6 +3,7 @@ package com.mcstarrysky.starrysky.i18n
 import com.mcstarrysky.starrysky.i18n.exception.severe
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import taboolib.common.io.newFile
 import taboolib.common.io.newFolder
 import taboolib.common.io.runningResources
 import taboolib.common.platform.ProxyCommandSender
@@ -61,20 +62,24 @@ object I18n {
      * 初始化语言系统
      */
     fun initialize() {
-        console().sendMessage("|- Loading I18n System version 1.0.0 by &{#FFD0DB}Micalhl§7...".colored())
+        console().sendMessage("|- Loading I18n System version 1.0.4 by &{#FFD0DB}Micalhl§7...".colored())
         measureTimeMillis {
             // 预热
             if (!folder.exists()) {
                 if (folder.mkdirs()) {
-                    runningResources.filter { it.startsWith("locales/") }.forEach { releaseResourceFile(it) }
                     console().sendMessage("|- Missing language folder, has been generated automatically")
                 } else {
                     console().sendMessage("|- Failed to generate language folder")
                     return
                 }
             }
+            runningResources
+                .filter { it.startsWith("locales/") }
+                .filterNot { newFile(getDataFolder(), it).exists() }.forEach {
+                console().sendMessage("|- Releasing language file ${it.removePrefix("locales/")}")
+            }
             // 加载
-            folder.listFiles { file -> file.extension == ".yml" }?.forEach { file ->
+            folder.listFiles { file -> file.extension == "yml" }?.forEach { file ->
                 localesMap += file.nameWithoutExtension to I18nConfig(file.nameWithoutExtension)
             }
         }.let { time ->
@@ -88,7 +93,7 @@ object I18n {
     fun reload() {
         console().sendMessage("|- Reloading I18n System...")
         measureTimeMillis {
-            folder.listFiles { file -> file.extension == ".yml" }?.forEach { file ->
+            folder.listFiles { file -> file.extension == "yml" }?.forEach { file ->
                 val config = localesMap.computeIfAbsent(file.nameWithoutExtension) { I18nConfig(file.nameWithoutExtension) }
                 config.reload()
             }

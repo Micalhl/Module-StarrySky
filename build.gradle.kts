@@ -60,6 +60,15 @@ publishing {
     publications {
         create<MavenPublication>("library") {
             from(components["java"])
+            version = (if (project.hasProperty("build")) {
+                var build = project.findProperty("build").toString()
+                if (build.startsWith("task ")) {
+                    build = "local"
+                }
+                "${project.version}-$build"
+            } else {
+                "${project.version}"
+            })
         }
     }
 }

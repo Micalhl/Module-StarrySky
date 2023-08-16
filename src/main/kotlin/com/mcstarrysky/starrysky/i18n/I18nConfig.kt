@@ -116,7 +116,7 @@ class I18nConfig(private val locale: String) {
     private fun getNode(node: String): String {
         return if (config.isList(node)) {
             config.getStringList(node).joinToString("[](br)", prefix = "", postfix = "")
-        } else config.getString("node") ?: "{$node}"
+        } else config.getString(node) ?: "{$node}"
     }
 
     /**

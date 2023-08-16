@@ -51,5 +51,5 @@ fun ProxyCommandSender.asLangText(node: String, vararg args: Pair<String, Any>, 
 }
 
 fun ProxyCommandSender.asLangTextString(node: String, vararg args: Pair<String, Any>): String {
-    return I18n.getLocale(I18n.getLocale(this)).origin(node, *args, player = this.castSafely<Player>())
+    return I18n.getLocale(I18n.getLocale(this)).origin(node, *args, player = this.castSafely<CommandSender>() as? Player)
 }
