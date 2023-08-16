@@ -61,7 +61,7 @@ object I18n {
      * 初始化语言系统
      */
     fun initialize() {
-        console().sendMessage("|- Loading I18n System version 1.0.4 by &{#FFD0DB}Micalhl§7...".colored())
+        console().sendMessage("|- Loading I18n System version 1.0.5 by &{#FFD0DB}Micalhl§7...".colored())
         measureTimeMillis {
             // 预热
             if (!folder.exists()) {
@@ -98,7 +98,7 @@ object I18n {
                 config.reload()
             }
         }.let { time ->
-            console().sendMessage("|- Reloaded I18n System in §6${time}ms")
+            console().sendMessage("|- Reloaded I18n System with ${localesMap.size} language files in §6${time}ms")
         }
     }
 
