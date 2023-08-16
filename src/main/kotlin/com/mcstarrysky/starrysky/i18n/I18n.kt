@@ -109,6 +109,10 @@ object I18n {
         return Locale.getDefault().toLanguageTag().replace("-", "_").lowercase()
     }
 
+    fun action(action: String, obj: String) {
+        getLocale(getLocale()).logRaw("&7尝试$action &c$obj&7.")
+    }
+
     fun error(action: String, obj: String, exception: String) {
         getLocale(getLocale()).logRaw("&7$action &c$obj &7时遇到错误(&c$exception&7).")
     }
