@@ -2,6 +2,7 @@ package com.mcstarrysky.starrysky.i18n
 
 import com.mcstarrysky.starrysky.utils.YamlUpdater
 import com.mcstarrysky.starrysky.utils.replace
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.adaptPlayer
@@ -52,17 +53,17 @@ class I18nConfig(private val locale: String) {
 
     fun send(sender: ProxyCommandSender, node: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
         if (prefix) {
-            cacheWithPrefix(node, *args, player = sender.castSafely<Player>()).sendTo(sender)
+            cacheWithPrefix(node, *args, player = sender.castSafely<CommandSender>() as? Player).sendTo(sender)
         } else {
-            cache(node, *args, player = sender.castSafely<Player>()).sendTo(sender)
+            cache(node, *args, player = sender.castSafely<CommandSender>() as? Player).sendTo(sender)
         }
     }
 
     fun sendRaw(sender: ProxyCommandSender, msg: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
         if (prefix) {
-            buildWithPrefix(msg, *args, player = sender.castSafely<Player>()).sendTo(sender)
+            buildWithPrefix(msg, *args, player = sender.castSafely<CommandSender>() as? Player).sendTo(sender)
         } else {
-            build(msg, *args, player = sender.castSafely<Player>()).sendTo(sender)
+            build(msg, *args, player = sender.castSafely<CommandSender>() as? Player).sendTo(sender)
         }
     }
 
