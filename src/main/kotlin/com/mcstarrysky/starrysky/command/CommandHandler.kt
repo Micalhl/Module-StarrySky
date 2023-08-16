@@ -63,12 +63,12 @@ interface CommandHandler {
                 val description = sub[name]?.desc(sender) ?: sender.asLangTextString("command.no-description")
                 when (state) {
                     1 -> {
-                        sender.sendLang("command.argument-missing", "name" to name, "usage" to usage, "description" to description)
+                        sender.sendLang("command.argument-missing", "name" to name, "usage" to usage, "description" to description, prefix = false)
                     }
 
                     2 -> {
                         if (ctx.args().size > 1) {
-                            sender.sendLang("command.argument-wrong", "name" to name, "usage" to usage, "description" to description)
+                            sender.sendLang("command.argument-wrong", "name" to name, "usage" to usage, "description" to description, prefix = false)
                         } else {
                             val similar = sub.keys
                                 .asSequence()
@@ -78,13 +78,13 @@ interface CommandHandler {
                                 .filter { sender.hasPermission(it.permission) }
                                 .maxByOrNull { Strings.similarDegree(name, it.aliases[0]) }!!
                                 .aliases[0]
-                            sender.sendLang("command.argument-unknown", "name" to name, "similar" to similar)
+                            sender.sendLang("command.argument-unknown", "name" to name, "similar" to similar, prefix = false)
                         }
                     }
                 }
             }
             incorrectSender { sender, ctx ->
-                sender.sendLang("command.incorrect-sender", "name" to ctx.args().first())
+                sender.sendLang("command.incorrect-sender", "name" to ctx.args().first(), prefix = false)
             }
         }
     }
