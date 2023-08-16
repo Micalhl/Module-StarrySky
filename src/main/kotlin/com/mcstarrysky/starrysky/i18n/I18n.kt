@@ -4,11 +4,14 @@ import com.mcstarrysky.starrysky.i18n.exception.severe
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import taboolib.common.io.newFolder
+import taboolib.common.io.runningResources
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.getDataFolder
+import taboolib.common.platform.function.releaseResourceFile
 import taboolib.common.util.unsafeLazy
+import taboolib.module.chat.colored
 import java.io.File
 import java.util.Locale
 import kotlin.system.measureTimeMillis
@@ -58,11 +61,12 @@ object I18n {
      * 初始化语言系统
      */
     fun initialize() {
-        console().sendMessage("|- Loading I18n System version 1.0.0 by &{#FFD0DB}Micalhl§7...")
+        console().sendMessage("|- Loading I18n System version 1.0.0 by &{#FFD0DB}Micalhl§7...".colored())
         measureTimeMillis {
             // 预热
             if (!folder.exists()) {
                 if (folder.mkdirs()) {
+                    runningResources.filter { it.startsWith("locales/") }.forEach { releaseResourceFile(it) }
                     console().sendMessage("|- Missing language folder, has been generated automatically")
                 } else {
                     console().sendMessage("|- Failed to generate language folder")
@@ -94,7 +98,7 @@ object I18n {
     }
 
     fun getLocale(languageCode: String): I18nConfig {
-        return localesMap[languageCode] ?: localesMap[defaultLanguageCode] ?: severe("Missing language file: $languageCode")
+        return localesMap[languageCodeTransfer[languageCode] ?: languageCode] ?: localesMap[defaultLanguageCode] ?: severe("Missing language file: $languageCode")
     }
 
     fun getLocale(player: Player): String {
