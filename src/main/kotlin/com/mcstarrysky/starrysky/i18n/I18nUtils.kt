@@ -12,7 +12,7 @@ fun Player.sendLang(node: String, vararg args: Pair<String, Any>, prefix: Boolea
 }
 
 fun Player.sendRaw(msg: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
-    I18n.getLocaleFile(adaptPlayer(this)).send(this, msg, *args, prefix = prefix)
+    I18n.getLocaleFile(adaptPlayer(this)).sendRaw(this, msg, *args, prefix = prefix)
 }
 
 fun Player.asLangText(node: String, vararg args: Pair<String, Any>, prefix: Boolean = false) {
@@ -30,7 +30,7 @@ fun CommandSender.sendLang(node: String, vararg args: Pair<String, Any>, prefix:
 }
 
 fun CommandSender.sendRaw(msg: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
-    I18n.getLocaleFile(adaptCommandSender(this)).send(adaptCommandSender(this), msg, *args, prefix = prefix)
+    I18n.getLocaleFile(adaptCommandSender(this)).sendRaw(adaptCommandSender(this), msg, *args, prefix = prefix)
 }
 
 fun ProxyCommandSender.sendLang(node: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
@@ -38,7 +38,7 @@ fun ProxyCommandSender.sendLang(node: String, vararg args: Pair<String, Any>, pr
 }
 
 fun ProxyCommandSender.sendRaw(msg: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
-    I18n.getLocaleFile(this).send(this, msg, *args, prefix = prefix)
+    I18n.getLocaleFile(this).sendRaw(this, msg, *args, prefix = prefix)
 }
 
 fun ProxyCommandSender.asLangText(node: String, vararg args: Pair<String, Any>, prefix: Boolean = false): ComponentText {
