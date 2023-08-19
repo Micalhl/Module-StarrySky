@@ -31,6 +31,7 @@ fun Basic.setSlots(
 fun Basic.initialize(
     shape: ShapeConfiguration,
     templates: TemplateConfiguration,
+    ignoreSlots: List<Int>,
     vararg ignored: String,
     args: MutableMap<String, Any?>.() -> Unit
 ) {
@@ -44,7 +45,7 @@ fun Basic.initialize(
 
     onClick {
         it.isCancelled = true
-        if (it.rawSlot in shape) {
+        if (it.rawSlot in shape && it.rawSlot !in ignoreSlots) {
             templates[it.rawSlot]?.handle(this, it) {
                 args.invoke(this)
             }
