@@ -1,5 +1,6 @@
 package com.mcstarrysky.starrysky.utils
 
+import taboolib.common.util.randomDouble
 import kotlin.math.abs
 
 val romanUnits = intArrayOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
@@ -42,3 +43,5 @@ fun Long.chinese(): String {
     }
     return if (negative) "负$result" else result
 }
+
+fun chance(a: Int, b: Int): Boolean = randomDouble() < a * 1.0 / b

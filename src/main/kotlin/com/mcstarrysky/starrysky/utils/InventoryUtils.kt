@@ -31,18 +31,23 @@ fun Basic.setSlots(
 fun Basic.initialize(
     shape: ShapeConfiguration,
     templates: TemplateConfiguration,
-    vararg ignored: String
+    vararg ignored: String,
+    args: MutableMap<String, Any?>.() -> Unit
 ) {
     onBuild { _, inventory ->
         shape.all(*ignored) { slot, index, item, _ ->
-            inventory.setItem(slot, item(slot, index))
+            inventory.setItem(slot, item(slot, index) {
+                args.invoke(this)
+            })
         }
     }
 
     onClick {
         it.isCancelled = true
         if (it.rawSlot in shape) {
-            templates[it.rawSlot]?.handle(this, it)
+            templates[it.rawSlot]?.handle(this, it) {
+                args.invoke(this)
+            }
         }
     }
 }
