@@ -24,6 +24,7 @@ dependencies {
     implementation("io.izzel.taboolib:module-configuration:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-chat:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-kether:${taboolibVersion}")
+    implementation("io.izzel.taboolib:module-metrics:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-nms:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-ui:${taboolibVersion}")
     implementation("io.izzel.taboolib:platform-bukkit:${taboolibVersion}")

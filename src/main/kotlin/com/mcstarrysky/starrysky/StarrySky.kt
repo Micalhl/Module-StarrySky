@@ -7,4 +7,7 @@ package com.mcstarrysky.starrysky
  * @author mical
  * @since 2023/8/16 3:47 PM
  */
-object StarrySky
+object StarrySky {
+
+    const val VERSION: String = "1.0.12"
+}
