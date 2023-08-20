@@ -3,6 +3,7 @@ package com.mcstarrysky.starrysky
 import com.mcstarrysky.starrysky.i18n.I18n
 import com.mcstarrysky.starrysky.i18n.sendRaw
 import taboolib.common.platform.Platform
+import taboolib.common.platform.PlatformFactory
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.pluginVersion
@@ -69,5 +70,13 @@ abstract class AbstractPlugin : Plugin() {
 
     fun registerBStats(serviceId: Int, callback: Consumer<Metrics>? = null) {
         pluginIds += serviceId to callback
+    }
+
+    inline fun <reified T> getAPI(): T {
+        return PlatformFactory.getAPI()
+    }
+
+    inline fun <reified T : Any> registerAPI(instance: T) {
+        PlatformFactory.registerAPI(instance)
     }
 }
