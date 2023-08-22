@@ -24,10 +24,6 @@ val frameItemStack: ItemStack by unsafeLazy {
     ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1)
 }
 
-val emptyLocation: Location by unsafeLazy {
-    Location(Bukkit.getWorlds()[0], 0.0, 0.0, 0.0)
-}
-
 fun ItemStack.serializeToBase64(): String {
     return Base64.getEncoder().encodeToString(serializeToByteArray())
 }
