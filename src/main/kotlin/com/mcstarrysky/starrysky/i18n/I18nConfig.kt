@@ -4,9 +4,13 @@ import com.mcstarrysky.starrysky.utils.YamlUpdater
 import com.mcstarrysky.starrysky.utils.replace
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.serverct.parrot.parrotx.function.VariableFunction
+import org.serverct.parrot.parrotx.function.VariableReaders
+import org.serverct.parrot.parrotx.function.variables
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
+import taboolib.common.util.VariableReader
 import taboolib.common.util.replaceWithOrder
 import taboolib.common.util.unsafeLazy
 import taboolib.module.chat.ComponentText
@@ -84,6 +88,30 @@ class I18nConfig(private val locale: String) {
         return msg
             .let { if (player != null) it.replaceWithOrder(player) else it }
             .split("[](br)")
+            .joinToString("[](br)", prefix = "", postfix = "") { getNode("prefix") + it }
+            .replace(*args)
+            .component().build { colored() }
+    }
+
+    /**
+     * 通过给定节点获取行内复合文本替换变量并构建
+     */
+    fun variables(node: String, vararg args: Pair<String, Any>, reader: VariableReader = VariableReaders.BRACES, variables: VariableFunction): ComponentText {
+        return getNode(node)
+            .split("[](br)")
+            .variables(reader, variables)
+            .joinToString("[](br)", prefix = "", postfix = "") { it }
+            .replace(*args)
+            .component().build { colored() }
+    }
+
+    /**
+     * 通过给定节点获取行内复合文本替换变量并构建（包含标题）
+     */
+    fun variablesWithPrefix(node: String, vararg args: Pair<String, Any>, reader: VariableReader = VariableReaders.BRACES, variables: VariableFunction): ComponentText {
+        return getNode(node)
+            .split("[](br)")
+            .variables(reader, variables)
             .joinToString("[](br)", prefix = "", postfix = "") { getNode("prefix") + it }
             .replace(*args)
             .component().build { colored() }
