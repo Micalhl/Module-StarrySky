@@ -20,7 +20,7 @@ import taboolib.module.configuration.Configuration
 class I18nConfig(private val locale: String) {
 
     private val config: Configuration by unsafeLazy {
-        YamlUpdater.loadAndUpdate("locales/$locale.yml")
+        YamlUpdater.loadAndUpdate("locales/$locale.yml", updateExists = false)
     }
 
     fun log(node: String, vararg args: Pair<String, Any>, prefix: Boolean = true) {
