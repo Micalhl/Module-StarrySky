@@ -31,7 +31,7 @@ object YamlUpdater {
         if (!newFile(getDataFolder(), path, create = false).exists()) {
             return Configuration.loadFromFile(releaseResourceFile(path), type = type)
         }
-        val config = Configuration.loadFromFile(newFile(getDataFolder(), path))
+        val config = Configuration.loadFromFile(newFile(getDataFolder(), path), type = type)
         val updated = mutableListOf<String>()
         read(cache, config, skipNodes, updated, updateExists)
         if (updated.isNotEmpty()) {
