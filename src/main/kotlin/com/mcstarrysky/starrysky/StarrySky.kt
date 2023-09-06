@@ -10,4 +10,5 @@ package com.mcstarrysky.starrysky
 object StarrySky {
 
     const val VERSION: String = "1.0.12"
+    const val IS_DEVELOPMENT_MODE: Boolean = false
 }

@@ -34,6 +34,6 @@ fun Player.sound(type: Sound, volume: Float = 1f, pitch: Float = 1f) {
 }
 
 fun Player.takeOneFromHand() {
-    val item = inventory.itemInHand ?: return
+    val item = inventory.itemInHand
     item.amount -= 1
 }

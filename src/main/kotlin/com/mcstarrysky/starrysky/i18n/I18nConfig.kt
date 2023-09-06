@@ -1,6 +1,6 @@
 package com.mcstarrysky.starrysky.i18n
 
-import com.mcstarrysky.starrysky.utils.YamlUpdater
+import com.mcstarrysky.starrysky.config.YamlUpdater
 import com.mcstarrysky.starrysky.utils.replace
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
