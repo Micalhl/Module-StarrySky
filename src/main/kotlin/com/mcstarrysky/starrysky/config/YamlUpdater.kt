@@ -18,7 +18,7 @@ import taboolib.module.configuration.Type
  */
 object YamlUpdater {
 
-    fun loadAndUpdate(path: String, skipNodes: Array<String> = emptyArray(), updateExists: Boolean = true): Configuration {
+    fun loadAndUpdate(path: String, skipNodes: Array<String> = emptyArray(), updateExists: Boolean = true, autoReload: Boolean = false): Configuration {
         val type = when (path.split(".").last().lowercase()) {
             "toml" -> Type.TOML
             "conf" -> Type.HOCON
@@ -32,6 +32,13 @@ object YamlUpdater {
             return Configuration.loadFromFile(releaseResourceFile(path), type = type)
         }
         val config = Configuration.loadFromFile(newFile(getDataFolder(), path), type = type)
+
+        if (autoReload) {
+            config.onReload {
+                loadAndUpdate(path, skipNodes, updateExists, true)
+            }
+        }
+
         val updated = mutableListOf<String>()
         read(cache, config, skipNodes, updated, updateExists)
         if (updated.isNotEmpty()) {
