@@ -57,6 +57,9 @@ object I18n {
     )
     private const val defaultLanguageCode: String = "zh_CN"
 
+    /** 是否已加载语言模块 */
+    var loaded: Boolean = false
+
     /**
      * 初始化语言系统
      */
@@ -83,6 +86,7 @@ object I18n {
                 localesMap += file.nameWithoutExtension to I18nConfig(file.nameWithoutExtension)
             }
         }.let { time ->
+            loaded = true
             console().sendMessage("|- Loaded I18n System with ${localesMap.size} language files in §6${time}ms")
         }
     }
