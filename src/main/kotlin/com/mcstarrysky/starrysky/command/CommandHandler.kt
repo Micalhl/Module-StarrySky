@@ -51,9 +51,9 @@ interface CommandHandler {
                 else BuiltInMessages.COMMAND_SUB.replace("cmd" to ctx.command.name, "name" to name, "usage" to usage, "description" to description)
             }
 
-            if (I18n.loaded)
+            (if (I18n.loaded)
                 sender.asLangTextString("command.helper", "pluginVersion" to pluginVersion, "minecraftVersion" to MinecraftVersion.minecraftVersion).replace("{subCommands}", text.joinToString(separator = "[](br)", prefix = "", postfix = ""))
-                    else BuiltInMessages.COMMAND_HELPER.replace("pluginId" to pluginId, "description" to (bukkitPlugin.description.description ?: ""), "pluginVersion" to pluginVersion, "minecraftVersion" to MinecraftVersion.minecraftVersion).replace("{subCommands}", text.joinToString(separator = "[](br)", prefix = "", postfix = ""))
+                    else BuiltInMessages.COMMAND_HELPER.replace("pluginId" to pluginId, "description" to (bukkitPlugin.description.description ?: ""), "pluginVersion" to pluginVersion, "minecraftVersion" to MinecraftVersion.minecraftVersion).replace("{subCommands}", text.joinToString(separator = "[](br)", prefix = "", postfix = "")))
                 .component()
                 .build { colored() }
                 .sendTo(sender)

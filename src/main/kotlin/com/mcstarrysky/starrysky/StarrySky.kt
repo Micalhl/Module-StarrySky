@@ -15,7 +15,7 @@ import taboolib.common.platform.function.info
  */
 object StarrySky {
 
-    const val VERSION: String = "1.0.12"
+    const val VERSION: String = "1.0.13"
     const val IS_DEVELOPMENT_MODE: Boolean = false
 
     fun log(msg: String, vararg args: Pair<String, Any>) {
