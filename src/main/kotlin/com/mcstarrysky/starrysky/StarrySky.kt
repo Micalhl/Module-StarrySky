@@ -27,10 +27,8 @@ object StarrySky {
     const val IS_DEVELOPMENT_MODE: Boolean = false
 
     fun log(message: String?, vararg args: Pair<String, Any>) {
-        println(message)
         if (message == null) return
         val result = message.split("\n")
-        println(result)
         for (msg in result) {
             if (I18n.loaded)
                 console().sendRaw(msg, *args)
