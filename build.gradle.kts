@@ -63,7 +63,6 @@ tasks {
     }
 
     withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-        archiveClassifier.set("")
         relocate("taboolib.", "com.mcstarrysky.taboolib.")
     }
 }
