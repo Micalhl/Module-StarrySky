@@ -20,7 +20,12 @@ dependencies {
     compileOnly("org.tabooproject.taboolib:module-parrotx:1.5.4")
 
     implementation("io.izzel.taboolib:common:${taboolibVersion}")
-    implementation("io.izzel.taboolib:common-5:${taboolibVersion}")
+    implementation("io.izzel.taboolib:common-legacy-api:${taboolibVersion}")
+    implementation("io.izzel.taboolib:common-env:${taboolibVersion}")
+    implementation("io.izzel.taboolib:common-platform-api:${taboolibVersion}")
+    implementation("io.izzel.taboolib:common-reflex:${taboolibVersion}")
+    implementation("io.izzel.taboolib:common-util:${taboolibVersion}")
+    implementation("io.izzel.taboolib:module-bukkit-util:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-configuration:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-chat:${taboolibVersion}")
     implementation("io.izzel.taboolib:module-kether:${taboolibVersion}")

@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.mcstarrysky.starrysky.i18n
 
 import com.mcstarrysky.starrysky.i18n.exception.severe
@@ -5,6 +6,7 @@ import org.bukkit.ChatColor
 import taboolib.common.io.newFile
 import taboolib.common.io.newFolder
 import taboolib.common.io.runningResources
+import taboolib.common.io.runningResourcesInJar
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.console
@@ -66,7 +68,7 @@ object I18n {
      * 初始化语言系统
      */
     fun initialize() {
-        console().sendMessage("|- Loading I18n System version 1.0.5 by &{#FFD0DB}Micalhl§7...".colored())
+        console().sendMessage("|- Loading I18n System version 1.0.6 by &{#FFD0DB}Micalhl§7...".colored())
         measureTimeMillis {
             // 预热
             if (!folder.exists()) {
@@ -77,8 +79,8 @@ object I18n {
                     return
                 }
             }
-            runningResources
-                .filter { it.startsWith("locales/") }
+            runningResourcesInJar.keys
+                .filter { it.startsWith("$path/") }
                 .filterNot { newFile(getDataFolder(), it, create = false).exists() }.forEach {
                     releaseResourceFile(it, true)
                     console().sendMessage("|- Releasing language file ${it.removePrefix("$path/")}")
