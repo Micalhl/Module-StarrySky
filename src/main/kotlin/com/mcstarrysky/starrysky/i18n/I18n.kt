@@ -42,9 +42,11 @@ object I18n {
     const val CLEAR = "清空"
     const val INDEX = "构建索引"
 
+    var path = "locales"
+
     private val localesMap = HashMap<String, I18nConfig>()
     private val folder: File by unsafeLazy {
-        newFolder(getDataFolder(), "locales", create = false)
+        newFolder(getDataFolder(), path, create = false)
     }
 
     private val languageCodeTransfer = hashMapOf(
@@ -79,7 +81,7 @@ object I18n {
                 .filter { it.startsWith("locales/") }
                 .filterNot { newFile(getDataFolder(), it, create = false).exists() }.forEach {
                     releaseResourceFile(it, true)
-                    console().sendMessage("|- Releasing language file ${it.removePrefix("locales/")}")
+                    console().sendMessage("|- Releasing language file ${it.removePrefix("$path/")}")
             }
             // 加载
             folder.listFiles { file -> file.extension == "yml" }?.forEach { file ->
