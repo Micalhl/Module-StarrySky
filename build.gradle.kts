@@ -8,6 +8,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 repositories {
@@ -45,14 +46,24 @@ java {
     withSourcesJar()
 }
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
+tasks {
+    build {
+        dependsOn("shadowJar")
+    }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-Xjvm-default=all")
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+    }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xjvm-default=all")
+        }
+    }
+
+    withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
+        relocate("taboolib.", "com.mcstarrysky.taboolib.")
     }
 }
 
@@ -70,8 +81,7 @@ publishing {
         }
     }
     publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
+        create<MavenPublication>("maven") {
             version = (if (project.hasProperty("build")) {
                 var build = project.findProperty("build").toString()
                 if (build.startsWith("task ")) {
@@ -81,6 +91,9 @@ publishing {
             } else {
                 "${project.version}"
             })
+
+            artifact(tasks["kotlinSourcesJar"])
+            artifact(tasks["shadowJar"])
         }
     }
 }
