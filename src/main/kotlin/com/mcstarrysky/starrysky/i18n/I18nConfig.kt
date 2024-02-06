@@ -142,7 +142,7 @@ class I18nConfig(private val locale: String) {
      * 通过给定节点获取原始行内复合文本内容
      * 可自动判断List与String
      */
-    private fun getNode(node: String): String {
+    fun getNode(node: String): String {
         return if (config.isList(node)) {
             config.getStringList(node).joinToString("[](br)", prefix = "", postfix = "")
         } else config.getString(node) ?: "{$node}"

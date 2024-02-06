@@ -1,6 +1,7 @@
 package com.mcstarrysky.starrysky
 
 import com.mcstarrysky.starrysky.i18n.I18n
+import com.mcstarrysky.starrysky.i18n.asLangTextString
 import com.mcstarrysky.starrysky.i18n.sendRaw
 import com.mcstarrysky.starrysky.utils.replace
 import taboolib.common.platform.Platform
@@ -26,21 +27,21 @@ object StarrySky {
     const val VERSION: String = "2.0.0"
     const val IS_DEVELOPMENT_MODE: Boolean = false
 
-    fun log(message: String?, vararg args: Pair<String, Any>) {
+    fun log(message: String?, prefix: Boolean = true, vararg args: Pair<String, Any>) {
         if (message == null) return
         val result = message.split("\n")
         for (msg in result) {
             if (I18n.loaded)
-                console().sendRaw(msg, *args)
+                console().sendRaw(msg, *args, prefix = prefix)
             else info(msg.colored().replace(*args))
         }
     }
 
     fun setup(config: Configuration? = null,
               loadI18n: Boolean = true,
-              timeLog: String? = "插件加载完成, 共耗时&a{time}ms&r.",
-              bStatsEnabled: String? = "已启用 bStats 数据统计.\n若您需要禁用此功能, 一般情况下可于配置文件{file}中编辑或新增 \"bStats: false\" 关闭此功能.",
-              bStatsDisabled: String? = "bStats 数据统计已被禁用.",
+              timeLog: String? = "{prefix}插件加载完成, 共耗时&a{time}ms&r.",
+              bStatsEnabled: String? = "{prefix}已启用 bStats 数据统计.\n若您需要禁用此功能, 一般情况下可于配置文件{file}中编辑或新增 \"bStats: false\" 关闭此功能.",
+              bStatsDisabled: String? = "{prefix}bStats 数据统计已被禁用.",
               vararg bStats: Pair<Int, Consumer<Metrics>?>,
               load: () -> Unit
     ): Boolean {
@@ -54,7 +55,7 @@ object StarrySky {
 
                 // 加载 bStats
                 if (config == null) {
-                    log(bStatsDisabled)
+                    log(bStatsDisabled, false, "prefix" to console().asLangTextString("prefix"))
                 } else {
                     if (config.getBoolean("bStats", true)) {
                         runCatching {
@@ -67,7 +68,7 @@ object StarrySky {
                                 callback?.accept(pluginMetrics)
                             }
 
-                            log(bStatsEnabled, "file" to  if (config.file != null) " ${config.file!!.name} " else "")
+                            log(bStatsEnabled, false, "prefix" to console().asLangTextString("prefix"), "file" to  if (config.file != null) " ${config.file!!.name} " else "")
                         }.onFailure {
                             if (I18n.loaded) {
                                 I18n.error(I18n.LOAD, "bStats 数据统计", it, null)
@@ -78,7 +79,7 @@ object StarrySky {
                         }
                     }
                 }
-            }.let { log(timeLog, "time" to it) }
+            }.let { log(timeLog, false, "prefix" to console().asLangTextString("prefix"), "time" to it) }
         }.isSuccess
     }
 }
