@@ -27,8 +27,10 @@ object StarrySky {
     const val IS_DEVELOPMENT_MODE: Boolean = false
 
     fun log(message: String?, vararg args: Pair<String, Any>) {
+        println(message)
         if (message == null) return
         val result = message.split("\n")
+        println(result)
         for (msg in result) {
             if (I18n.loaded)
                 console().sendRaw(msg, *args)
@@ -43,40 +45,42 @@ object StarrySky {
               bStatsDisabled: String? = "bStats 数据统计已被禁用.",
               vararg bStats: Pair<Int, Consumer<Metrics>?>,
               load: () -> Unit
-    ) {
-        measureTimeMillis {
-            // 加载 I18n 系统
-            if (loadI18n) I18n.initialize()
+    ): Boolean {
+        return runCatching {
+            measureTimeMillis {
+                // 加载 I18n 系统
+                if (loadI18n) I18n.initialize()
 
-            // 运行加载代码
-            load.invoke()
+                // 运行加载代码
+                load.invoke()
 
-            // 加载 bStats
-            if (config == null) {
-                log(bStatsDisabled)
-                return
-            }
-            if (config.getBoolean("bStats", true)) {
-                runCatching {
-                    // Module-StarrySky
-                    Metrics(19573, StarrySky.VERSION, Platform.BUKKIT)
+                // 加载 bStats
+                if (config == null) {
+                    log(bStatsDisabled)
+                } else {
+                    if (config.getBoolean("bStats", true)) {
+                        runCatching {
+                            // Module-StarrySky
+                            Metrics(19573, VERSION, Platform.BUKKIT)
 
-                    // Own Plugin
-                    for ((serviceId, callback) in bStats) {
-                        val pluginMetrics = Metrics(serviceId, pluginVersion, Platform.BUKKIT)
-                        callback?.accept(pluginMetrics)
-                    }
+                            // Own Plugin
+                            for ((serviceId, callback) in bStats) {
+                                val pluginMetrics = Metrics(serviceId, pluginVersion, Platform.BUKKIT)
+                                callback?.accept(pluginMetrics)
+                            }
 
-                    log(bStatsEnabled, "file" to  if (config.file != null) " ${config.file!!.name} " else "")
-                }.onFailure {
-                    if (I18n.loaded) {
-                        I18n.error(I18n.LOAD, "bStats 数据统计", it, null)
-                    } else {
-                        severe("§7加载 §cbStats 数据统计 §7时遇到错误 (§c${it}§7).")
-                        I18n.printStackTrace(it)
+                            log(bStatsEnabled, "file" to  if (config.file != null) " ${config.file!!.name} " else "")
+                        }.onFailure {
+                            if (I18n.loaded) {
+                                I18n.error(I18n.LOAD, "bStats 数据统计", it, null)
+                            } else {
+                                severe("§7加载 §cbStats 数据统计 §7时遇到错误 (§c${it}§7).")
+                                I18n.printStackTrace(it)
+                            }
+                        }
                     }
                 }
-            }
-        }.let { log(timeLog, "time" to it) }
+            }.let { log(timeLog, "time" to it) }
+        }.isSuccess
     }
 }
