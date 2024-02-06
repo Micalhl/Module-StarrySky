@@ -19,6 +19,7 @@ import kotlin.system.measureTimeMillis
  * @author mical
  * @since 2023/8/19 11:23 PM
  */
+@Deprecated("Please use StarrySky#setup instead")
 abstract class AbstractPlugin : Plugin() {
 
     open var timeLog = "插件加载完成, 共耗时&a{time}ms&r."

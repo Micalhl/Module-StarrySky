@@ -22,6 +22,7 @@ import kotlin.system.measureTimeMillis
  * @author 米擦亮
  * @since 2023/8/30 9:27 PM
  */
+@Deprecated("Please use StarrySky#setup instead")
 interface LicensePlugin {
 
     fun enable() {

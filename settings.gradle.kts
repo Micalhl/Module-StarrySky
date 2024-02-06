@@ -1,1 +1,1 @@
-rootProject.name="module-starrysky"
+rootProject.name="Module-StarrySky"
