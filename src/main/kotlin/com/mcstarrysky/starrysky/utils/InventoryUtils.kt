@@ -2,9 +2,9 @@ package com.mcstarrysky.starrysky.utils
 
 import org.serverct.parrot.parrotx.ui.config.advance.ShapeConfiguration
 import org.serverct.parrot.parrotx.ui.config.advance.TemplateConfiguration
-import taboolib.module.ui.type.Basic
+import taboolib.module.ui.type.Chest
 
-fun Basic.setSlots(
+fun Chest.setSlots(
     shape: ShapeConfiguration,
     templates: TemplateConfiguration,
     key: String,
@@ -28,7 +28,7 @@ fun Basic.setSlots(
     }
 }
 
-fun Basic.initialize(
+fun Chest.initialize(
     shape: ShapeConfiguration,
     templates: TemplateConfiguration,
     ignoreSlots: List<Int>,
