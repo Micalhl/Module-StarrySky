@@ -27,7 +27,7 @@ object StarrySky {
     const val VERSION: String = "2.0.0"
     const val IS_DEVELOPMENT_MODE: Boolean = false
 
-    fun log(message: String?, prefix: Boolean = true, vararg args: Pair<String, Any>) {
+    fun log(message: String?, vararg args: Pair<String, Any>, prefix: Boolean = true) {
         if (message == null) return
         val result = message.split("\n")
         for (msg in result) {
@@ -55,7 +55,7 @@ object StarrySky {
 
                 // 加载 bStats
                 if (config == null) {
-                    log(bStatsDisabled, false, "prefix" to console().asLangTextString("prefix"))
+                    log(bStatsDisabled, "prefix" to console().asLangTextString("prefix"), prefix = false)
                 } else {
                     if (config.getBoolean("bStats", true)) {
                         runCatching {
@@ -68,7 +68,7 @@ object StarrySky {
                                 callback?.accept(pluginMetrics)
                             }
 
-                            log(bStatsEnabled, false, "prefix" to console().asLangTextString("prefix"), "file" to  if (config.file != null) " ${config.file!!.name} " else "")
+                            log(bStatsEnabled, "prefix" to console().asLangTextString("prefix"), "file" to  if (config.file != null) " ${config.file!!.name} " else "", prefix = false)
                         }.onFailure {
                             if (I18n.loaded) {
                                 I18n.error(I18n.LOAD, "bStats 数据统计", it, null)
@@ -79,7 +79,7 @@ object StarrySky {
                         }
                     }
                 }
-            }.let { log(timeLog, false, "prefix" to console().asLangTextString("prefix"), "time" to it) }
+            }.let { log(timeLog, "prefix" to console().asLangTextString("prefix"), "time" to it, prefix = false) }
         }.isSuccess
     }
 }
