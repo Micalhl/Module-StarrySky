@@ -3,6 +3,7 @@ buildscript {
         maven("https://maven.aliyun.com/repository/central")
     }
 }
+
 plugins {
     `java-library`
     `maven-publish`
