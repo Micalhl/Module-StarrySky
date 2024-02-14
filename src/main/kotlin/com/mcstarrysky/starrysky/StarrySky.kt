@@ -43,7 +43,7 @@ object StarrySky {
               bStatsEnabled: String? = "{prefix}已启用 bStats 数据统计.\n若您需要禁用此功能, 一般情况下可于配置文件{file}中编辑或新增 \"bStats: false\" 关闭此功能.",
               bStatsDisabled: String? = "{prefix}bStats 数据统计已被禁用.",
               vararg bStats: Pair<Int, Consumer<Metrics>?>,
-              load: () -> Unit
+              load: (() -> Unit)? = null
     ): Boolean {
         return runCatching {
             measureTimeMillis {
@@ -51,7 +51,7 @@ object StarrySky {
                 if (loadI18n) I18n.initialize()
 
                 // 运行加载代码
-                load.invoke()
+                load?.invoke()
 
                 // 加载 bStats
                 if (config == null) {
