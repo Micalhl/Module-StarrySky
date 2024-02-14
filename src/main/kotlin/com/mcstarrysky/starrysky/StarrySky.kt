@@ -53,7 +53,7 @@ object StarrySky {
 
                 // 加载 bStats
                 if (config == null) {
-                    log(bStatsDisabled, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l{$pluginId}&8\\] &f", prefix = false)
+                    log(bStatsDisabled, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l$pluginId&8\\] &f", prefix = false)
                 } else {
                     if (config.getBoolean("bStats", true)) {
                         runCatching {
@@ -66,7 +66,7 @@ object StarrySky {
                                 callback?.accept(pluginMetrics)
                             }
 
-                            log(bStatsEnabled, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l{$pluginId}&8\\] &f", "file" to  if (config.file != null) " ${config.file!!.name} " else "", prefix = false)
+                            log(bStatsEnabled, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l$pluginId&8\\] &f", "file" to  if (config.file != null) " ${config.file!!.name} " else "", prefix = false)
                         }.onFailure {
                             if (I18n.loaded) {
                                 I18n.error(I18n.LOAD, "bStats 数据统计", it, null)
@@ -77,7 +77,7 @@ object StarrySky {
                         }
                     }
                 }
-            }.let { log(timeLog, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l{$pluginId}&8\\] &f", "time" to it, prefix = false) }
+            }.let { log(timeLog, "prefix" to if (loadI18n) console().asLangTextString("prefix") else "&8\\[&f&l$pluginId&8\\] &f", "time" to it, prefix = false) }
         }.isSuccess
     }
 }
